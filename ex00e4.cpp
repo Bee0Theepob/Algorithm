@@ -1,14 +1,12 @@
 #include <iostream>
 #include <vector>
-#include<map>
-#include<set>
 
 using namespace std;
 
 
 void ahhh(int n,int len,vector<int>& v,int k,int c){
     if(len<n){
-        if(n-len>=k-c+1){
+        if(n-len>k-c){
             v[len]=0;
             ahhh(n,len+1,v,k,c);
         }
