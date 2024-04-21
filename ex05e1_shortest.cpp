@@ -1,64 +1,49 @@
 #include<bits/stdc++.h>
 using namespace std;
-map<pair<int,int>,set<pair<int,int>>> g;
+vector<vector<char>> mapp;
 vector<vector<int>> dist;
-void letsgo(pair<int,int> a){
-    queue<pair<int,int>> qq;
-    qq.push(a);
-    dist[a.first][a.second]=0;
-    while(!qq.empty()){
-      pair<int,int> p=qq.front();
-      qq.pop();
-      for(auto x:g[p]){
-        if(dist[x.first][x.second]==-1){
-          qq.push(x);
-          dist[x.first][x.second]=dist[p.first][p.second]+1;
-        }
+int dx[]={-1,0,1,0},dy[]={0,-1,0,1};
+int r,c;
+void dijk(int stx,int sty){
+  priority_queue<pair<int,pair<int,int>>> pq;
+  pq.push({0,{stx,sty}});
+  dist[sty][stx]=0;
+  while(!pq.empty()){
+    int x=pq.top().second.first,y=pq.top().second.second;
+    pq.pop();
+
+    for(int i=0;i<4;i++){
+      int nx=x+dx[i],ny=y+dy[i];
+      if(nx<0 || nx>=c || ny<0 || ny>=r || mapp[ny][nx]=='#') continue;
+
+      if(dist[ny][nx] > dist[y][x] + 1){
+        dist[ny][nx] = dist[y][x] + 1;
+        pq.push({-dist[ny][nx],{nx,ny}});
       }
     }
+  }
 }
+
 
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);
-    int n,m;
-    cin>>n>>m;
-    vector<string> v(n);
-    for(int i=0;i<n;i++){
-        vector<int> tmp(m,-1);
-        dist.push_back(tmp);
+    char t;
+    cin>>r>>c;
+    mapp.resize(r);
+    dist.resize(r);
+    for(int i=0;i<r;i++){
+      for(int j=0;j<c;j++){
+        cin>>t;
+        mapp[i].push_back(t);;
+        dist[i].push_back(1e9);
+      }
     }
-    for(int i=0;i<n;i++){
-      cin>>v[i];
-    }    
-    for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(v[i][j]=='.'){
-                    if(i>0 && v[i-1][j]=='.'){
-                        g[make_pair(i,j)].insert(make_pair(i-1,j));
-                        g[make_pair(i-1,j)].insert(make_pair(i,j));
-                    }
-                    if(j>0 && v[i][j-1]=='.'){
-                        g[make_pair(i,j)].insert(make_pair(i,j-1));
-                        g[make_pair(i,j-1)].insert(make_pair(i,j));
-                    }
-                    if(i<n-1 && v[i+1][j]=='.'){
-                        g[make_pair(i,j)].insert(make_pair(i+1,j));
-                        g[make_pair(i+1,j)].insert(make_pair(i,j));
-                    }
-                    if(j<m-1 && v[i][j+1]=='.'){
-                        g[make_pair(i,j)].insert(make_pair(i,j+1));
-                        g[make_pair(i,j+1)].insert(make_pair(i,j));
-                    }
-                }
-            }
-    }
- 
-    letsgo({0,0});
-    if(dist[n-1][m-1]){
-        cout<<dist[n-1][m-1];
+    dijk(0,0);
+    if(dist[r-1][c-1]!=1e9){
+      cout<<dist[r-1][c-1];
     }
     else{
       cout<<-1;
     }
-    cout<<"\n";
+    
 }

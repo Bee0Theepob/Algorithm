@@ -2,10 +2,8 @@
 using namespace std;
 vector<vector<int>> g;
 map<pair<int,int>,int> weight;
-void dijk(int a,vector<int> &dist){
-    priority_queue<pair<int,int>> pq;
-    pq.push({0,a});
-    dist[a]=0;
+priority_queue<pair<int,int>> pq;
+void dijk(vector<int> &dist){
     while(!pq.empty()){
         pair<int,int> u=pq.top();
         pq.pop();
@@ -22,22 +20,22 @@ int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);
     int n,m,k,target;
     cin>>n>>m>>k>>target;
+    vector<int> dist(n,1e9);
     g.resize(n);
     vector<int> start(k);
     for(int i=0;i<k;i++){
         cin>>start[i];
+        dist[start[i]]=0;
+        pq.push({0,start[i]});
     }
     while(m--){
         int a,b,w;
         cin>>a>>b>>w;
-        g[b].push_back(a);
-        weight[{b,a}]=w;
+        g[a].push_back(b);
+        weight[{a,b}]=w;
     }
-    vector<int> dist(n,1e9);
-    dijk(target,dist);
-    int ans=1e9;
-    for(int i=0;i<k;i++){
-        ans=min(ans,dist[start[i]]);
-    }
+    
+    dijk(dist);
+    int ans= dist[target];
     cout<<ans;
 }

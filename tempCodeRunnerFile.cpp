@@ -1,5 +1,7 @@
-
-                if(ans[tear-1][ny][nx] > ans[tear][y][x]){
-                        ans[tear-1][ny][nx]=ans[tear][y][x];
-                        pq.push({{-ans[tear-1][ny][nx],tear-1},{nx,ny}});
-                    }
+1 1 1 1 1
+1 1 1 2
+1 1 3
+1 2 2
+1 4
+2 3
+5
