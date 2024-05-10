@@ -34,6 +34,6 @@ int main(){
     int n;
     cin>>n;
     vector<int> v(n);
-    perm(n,v,0);
+    combi(n,v,0);
 
 }
