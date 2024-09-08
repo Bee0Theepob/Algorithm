@@ -4,9 +4,9 @@ using namespace std;
 
 void combi(int n,vector<int> &sol,int len){
     if(len<n){
-        sol[len]=1;
-        combi(n,sol,len+1);    
         sol[len]=0;
+        combi(n,sol,len+1);    
+        sol[len]=1;
         combi(n,sol,len+1);
     }
     else{
@@ -35,5 +35,4 @@ int main(){
     cin>>n;
     vector<int> v(n);
     combi(n,v,0);
-
 }
